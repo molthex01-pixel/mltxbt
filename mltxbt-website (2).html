@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLTXBT - AI Crypto Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #ff0000;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-400: #999999;
+            --gray-600: #666666;
+            --gray-800: #333333;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--black);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 5rem;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            color: var(--red);
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            font-weight: 400;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        }
+
+        /* Live Feed Section */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray-400);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        /* Live Feed Card */
+        .live-feed {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feed-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--red);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .feed-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .feed-text {
+            flex: 1;
+            font-size: 1rem;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .feed-text strong {
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        .feed-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--gray-400);
+            transform: translateY(-1px);
+        }
+
+        .btn-icon.active {
+            background: var(--black);
+            border-color: var(--black);
+        }
+
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--red);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Market Grid */
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .market-card {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .market-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .coin-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--red), #ff3333);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-ticker {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        /* Terminal Section */
+        .terminal-wrapper {
+            background: var(--black);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .terminal-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .terminal-title {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .terminal-body {
+            padding: 1.5rem;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+            font-size: 0.85rem;
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        .terminal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            animation: slideIn 0.2s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .prompt {
+            color: var(--red);
+            margin-right: 0.5rem;
+        }
+
+        .command {
+            color: var(--white);
+        }
+
+        .output {
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 2rem;
+            display: block;
+        }
+
+        .output.success { color: #00ff00; }
+        .output.error { color: var(--red); }
+        .output.warning { color: #ffaa00; }
+        .output.info { color: #00aaff; }
+
+        /* Insights Section */
+        .insight-card {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .insight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+        }
+
+        .insight-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .insight-time {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        .insight-content {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--gray-600);
+        }
+
+        .insight-content strong {
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 3rem 0;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--gray-400);
+            font-weight: 400;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 2rem;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 4rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feed-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 5rem 1.5rem 3rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="https://mltxbt.vercel.app/">Market</a></li>
+                <li><a href="https://mltxbt.vercel.app/">Terminal</a></li>
+                <li><a href="https://mltxbt.vercel.app/">Insights</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>MLTXBT <br><span class="highlight">Crypto Intelligence</span></h1>
+            <p>Unlock institutional-grade market intelligence powered by advanced algorithms. Real-time analytics, predictive insights, and data-driven strategies that give you the edge in crypto trading.</p>
+        </div>
+    </section>
+
+    <section class="section" id="terminal">
+        <div class="section-label">LIVE TERMINAL</div>
+        <h2 class="section-title">Real-Time Analysis</h2>
+        
+        <div class="terminal-wrapper">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="terminal-title">mltxbt@terminal ~ %</div>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div class="terminal-line">
+                    <span class="prompt">$</span>
+                    <span class="command">Initializing systems...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-label">LIVE FEED</div>
+        
+        <div class="live-feed">
+            <div class="feed-header">
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <div class="feed-content">
+                <div class="feed-text" id="feedText">
+                    <strong>[BTC]</strong> Bitcoin breaks $70K resistance with strong momentum
+                </div>
+                <div class="feed-actions">
+                    <button class="btn-icon" id="likeBtn">
+                        👍
+                        <span class="badge" id="likeBadge">0</span>
+                    </button>
+                    <button class="btn-icon" id="dislikeBtn">
+                        👎
+                        <span class="badge" id="dislikeBadge">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="market">
+        <div class="section-label">MARKET</div>
+        <h2 class="section-title">Live Market Overview</h2>
+        
+        <div class="market-grid" id="marketGrid"></div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="https://mltxbt.vercel.app/" style="display: inline-block; padding: 0.75rem 2rem; background: var(--black); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease;">
+                View All Coins →
+            </a>
+        </div>
+    </section>
+
+    <section class="section" id="insights">
+        <div class="section-label">INTELLIGENCE</div>
+        <h2 class="section-title">Market Insights</h2>
+        
+        <div class="insight-card">
+            <div class="insight-header">
+                <h3 class="insight-title" id="insightTitle">Loading...</h3>
+                <span class="insight-time" id="insightTime">--:--</span>
+            </div>
+            <div class="insight-content" id="insightContent">
+                Loading market intelligence...
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">MLTXBT © 2026. For informational purposes only. Not financial advice.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Coins Data
+        const coins = [
+            { name: "Bitcoin", ticker: "BTC", icon: "₿", desc: "The first cryptocurrency and digital store of value", mcap: "$1.2T", vol: "$45.8B" },
+            { name: "Ethereum", ticker: "ETH", icon: "Ξ", desc: "Leading smart contract platform", mcap: "$425.6B", vol: "$28.3B" },
+            { name: "Solana", ticker: "SOL", icon: "◎", desc: "High-performance blockchain", mcap: "$89.2B", vol: "$8.7B" },
+            { name: "Cardano", ticker: "ADA", icon: "₳", desc: "Research-driven blockchain", mcap: "$38.4B", vol: "$2.1B" },
+            { name: "Polygon", ticker: "MATIC", icon: "⬡", desc: "Ethereum scaling solution", mcap: "$7.8B", vol: "$1.2B" },
+            { name: "Chainlink", ticker: "LINK", icon: "⬢", desc: "Decentralized oracle network", mcap: "$14.2B", vol: "$890M" },
+            { name: "Avalanche", ticker: "AVAX", icon: "🔺", desc: "Scalable smart contracts platform", mcap: "$15.6B", vol: "$1.5B" },
+            { name: "Polkadot", ticker: "DOT", icon: "●", desc: "Multi-chain interoperability", mcap: "$11.3B", vol: "$780M" },
+            { name: "Uniswap", ticker: "UNI", icon: "🦄", desc: "Leading decentralized exchange", mcap: "$5.4B", vol: "$650M" },
+            { name: "Arbitrum", ticker: "ARB", icon: "🔵", desc: "Ethereum Layer 2 scaling", mcap: "$3.8B", vol: "$420M" },
+            { name: "Optimism", ticker: "OP", icon: "🔴", desc: "Optimistic rollup solution", mcap: "$3.2B", vol: "$380M" },
+            { name: "Cosmos", ticker: "ATOM", icon: "⚛", desc: "Internet of blockchains", mcap: "$3.5B", vol: "$290M" }
+        ];
+
+        const marketGrid = document.getElementById('marketGrid');
+        let displayedCoins = [];
+        let coinStartIndex = 0;
+
+        // Function to display coins
+        function displayCoins() {
+            marketGrid.innerHTML = '';
+            displayedCoins = [];
+            
+            // Show 6 coins at a time
+            for (let i = 0; i < 6; i++) {
+                const index = (coinStartIndex + i) % coins.length;
+                const coin = coins[index];
+                displayedCoins.push(coin);
+                
+                const card = document.createElement('div');
+                card.className = 'market-card';
+                card.style.animation = 'fadeIn 0.5s ease';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="coin-icon">${coin.icon}</div>
+                        <div class="card-info">
+                            <h3>${coin.name}</h3>
+                            <div class="card-ticker">$${coin.ticker}</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">${coin.desc}</div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-label">Market Cap</div>
+                            <div class="stat-value">${coin.mcap}</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">24h Volume</div>
+                            <div class="stat-value">${coin.vol}</div>
+                        </div>
+                    </div>
+                `;
+                marketGrid.appendChild(card);
+            }
+        }
+
+        // Initial display
+        displayCoins();
+
+        // Rotate coins every 5 seconds
+        setInterval(() => {
+            coinStartIndex = (coinStartIndex + 6) % coins.length;
+            
+            // Fade out current cards
+            const cards = document.querySelectorAll('.market-card');
+            cards.forEach(card => {
+                card.style.animation = 'fadeOut 0.3s ease';
+            });
+            
+            // Display new coins after fade out
+            setTimeout(() => {
+                displayCoins();
+            }, 300);
+        }, 5000);
+
+        // Live Feed
+        const feeds = [
+            { cat: "BTC", text: "Bitcoin breaks $70K resistance with strong momentum" },
+            { cat: "ETH", text: "Ethereum staking rewards hit 5.2% APY milestone" },
+            { cat: "DeFi", text: "Total value locked surpasses $100B across protocols" },
+            { cat: "NFT", text: "Blue-chip collections surge 150% in market recovery" },
+            { cat: "AI", text: "AI trading agents generate consistent 30% returns" },
+            { cat: "L2", text: "Layer 2 solutions process 5M daily transactions" }
+        ];
+
+        let feedIndex = 0;
+        let feedStats = feeds.map(() => ({ likes: Math.floor(Math.random() * 40) + 10, dislikes: Math.floor(Math.random() * 15) + 5 }));
+        let vote = null;
+
+        function updateFeed() {
+            const feedText = document.getElementById('feedText');
+            const feed = feeds[feedIndex];
+            feedText.innerHTML = `<strong>[${feed.cat}]</strong> ${feed.text}`;
+            
+            document.getElementById('likeBadge').textContent = feedStats[feedIndex].likes;
+            document.getElementById('dislikeBadge').textContent = feedStats[feedIndex].dislikes;
+            document.getElementById('likeBtn').classList.remove('active');
+            document.getElementById('dislikeBtn').classList.remove('active');
+            vote = null;
+        }
+
+        document.getElementById('likeBtn').onclick = function() {
+            if (vote === 'like') {
+                this.classList.remove('active');
+                feedStats[feedIndex].likes--;
+                vote = null;
+            } else {
+                if (vote === 'dislike') {
+                    document.getElementById('dislikeBtn').classList.remove('active');
+                    feedStats[feedIndex].dislikes--;
+                }
+                this.classList.add('active');
+                feedStats[feedIndex].likes++;
+                vote = 'like';
+            }
+            document.getElementById('likeBadge').textContent = feedStats[feedIndex].likes;
+            document.getElementById('dislikeBadge').textContent = feedStats[feedIndex].dislikes;
+        };
+
+        document.getElementById('dislikeBtn').onclick = function() {
+            if (vote === 'dislike') {
+                this.classList.remove('active');
+                feedStats[feedIndex].dislikes--;
+                vote = null;
+            } else {
+                if (vote === 'like') {
+                    document.getElementById('likeBtn').classList.remove('active');
+                    feedStats[feedIndex].likes--;
+                }
+                this.classList.add('active');
+                feedStats[feedIndex].dislikes++;
+                vote = 'dislike';
+            }
+            document.getElementById('likeBadge').textContent = feedStats[feedIndex].likes;
+            document.getElementById('dislikeBadge').textContent = feedStats[feedIndex].dislikes;
+        };
+
+        updateFeed();
+        setInterval(() => {
+            feedIndex = (feedIndex + 1) % feeds.length;
+            updateFeed();
+        }, 4000);
+
+        // Terminal
+        const terminalBody = document.getElementById('terminalBody');
+        const commands = [
+            { cmd: "analyze --market btc", res: [
+                { t: "[SCAN] Analyzing Bitcoin market data...", s: "info" },
+                { t: "[PRICE] $67,234.50 (+2.5%)", s: "success" },
+                { t: "[SIGNAL] Strong buy signal detected", s: "success" }
+            ]},
+            { cmd: "detect --whales eth", res: [
+                { t: "[ALERT] Large ETH transfer detected", s: "warning" },
+                { t: "[AMOUNT] 15,000 ETH ($52M)", s: "info" }
+            ]},
+            { cmd: "predict --timeframe 1h", res: [
+                { t: "[AI] Running prediction model...", s: "info" },
+                { t: "[RESULT] 78% bullish probability", s: "success" }
+            ]}
+        ];
+
+        let cmdIdx = 0;
+        function runCmd() {
+            const cmd = commands[cmdIdx];
+            terminalBody.innerHTML += `<div class="terminal-line"><span class="prompt">$</span> <span class="command">${cmd.cmd}</span></div>`;
+            
+            let resIdx = 0;
+            const interval = setInterval(() => {
+                if (resIdx < cmd.res.length) {
+                    terminalBody.innerHTML += `<div class="terminal-line"><span class="output ${cmd.res[resIdx].s}">${cmd.res[resIdx].t}</span></div>`;
+                    terminalBody.scrollTop = terminalBody.scrollHeight;
+                    resIdx++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        if (terminalBody.children.length > 15) terminalBody.innerHTML = '';
+                        cmdIdx = (cmdIdx + 1) % commands.length;
+                        runCmd();
+                    }, 2500);
+                }
+            }, 1200);
+        }
+
+        setTimeout(runCmd, 1500);
+
+        // Insights
+        const insights = [
+            { 
+                title: "DeFi Renaissance", 
+                content: "<strong>Market Analysis:</strong> DeFi protocols experiencing remarkable 40% quarter-over-quarter growth. Aave and Compound dominating with combined $15B total value locked. Institutional capital accumulating governance tokens ahead of major protocol upgrades." 
+            },
+            { 
+                title: "Layer 2 Dominance", 
+                content: "<strong>Network Update:</strong> Arbitrum and Optimism now processing 5M daily transactions, surpassing Ethereum mainnet volume. Average transaction costs reduced below $0.10, accelerating unprecedented developer migration to scaling solutions." 
+            },
+            { 
+                title: "Algorithmic Trading Evolution", 
+                content: "<strong>Technology Report:</strong> Advanced algorithmic strategies demonstrating consistent 30% monthly returns through sophisticated optimization techniques. Institutional adoption accelerating with sector valuation exceeding $50B milestone." 
+            },
+            { 
+                title: "NFT Market Recovery", 
+                content: "<strong>Market Dynamics:</strong> Blue-chip NFT collections experiencing 150% value appreciation as institutional collectors return to market. Major brands launching exclusive digital collectibles, driving mainstream adoption and cultural relevance." 
+            },
+            { 
+                title: "Stablecoin Expansion", 
+                content: "<strong>Payment Infrastructure:</strong> USDC deployed across 20 blockchain networks, processing $50B daily transaction volume. Major payment processors integrating stablecoin rails for instant cross-border settlements at fraction of traditional costs." 
+            },
+            { 
+                title: "Institutional Custody Growth", 
+                content: "<strong>Infrastructure Development:</strong> Major custodians reporting 300% increase in institutional crypto holdings. Pension funds and endowments allocating 2-5% portfolios to digital assets, legitimizing asset class for conservative investors." 
+            }
+        ];
+
+        let insightIndex = 0;
+        
+        function updateInsight() {
+            const now = new Date();
+            const insightContent = document.getElementById('insightContent');
+            const insightTitle = document.getElementById('insightTitle');
+            const insightTime = document.getElementById('insightTime');
+            
+            // Fade out
+            insightContent.style.animation = 'fadeOut 0.3s ease';
+            insightTitle.style.animation = 'fadeOut 0.3s ease';
+            
+            setTimeout(() => {
+                // Update content
+                insightTitle.textContent = insights[insightIndex].title;
+                insightTime.textContent = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: true 
+                });
+                insightContent.innerHTML = insights[insightIndex].content;
+                
+                // Fade in
+                insightContent.style.animation = 'fadeIn 0.5s ease';
+                insightTitle.style.animation = 'fadeIn 0.5s ease';
+                
+                // Next insight
+                insightIndex = (insightIndex + 1) % insights.length;
+            }, 300);
+        }
+
+        updateInsight();
+        setInterval(updateInsight, 10000);
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
